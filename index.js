@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
 const { Square, Triangle, Circle } = require("./lib/shapes.js");
+const fs = require('fs')
+
 
 
 const questions = [
@@ -24,6 +26,11 @@ const questions = [
     name: 'textColor',
     message: 'What text color would you like?',
   },
+  // {
+  //   type: 'output',
+  //   name: 'result',
+  //   message: 'Generated logo.svg',
+  // },
 
 
 ]
@@ -32,19 +39,50 @@ function init() {
   inquirer.prompt(questions)
     .then(answers => {
       if (answers.shape === "Square") {
-        let shapeSquare = new Square(answers);
-        return shapeSquare.render()
+        let shapeSquare = new Square(answers.text, answers.textColor, answers.backgroundColor);
+        let logoSvg = shapeSquare.generateSVG(shapeSquare.render())
+
+
+        fs.writeFile('logo.svg', logoSvg, (err) => {
+          if (err) throw err;
+
+          console.log('Generated logo.svg');
+        });
+
       }
-      console.log(answers)
+
       if (answers.shape === "Circle") {
-        let shapeCircle = new Circle(answers);
-        return shapeCircle.render()
+        let shapeCircle = new Circle(answers.text, answers.textColor, answers.backgroundColor);
+
+        let logoSvg = shapeCircle.generateSVG(shapeCircle.render())
+
+
+        fs.writeFile('logo.svg', logoSvg, (err) => {
+          if (err) throw err;
+
+          console.log('Generated logo.svg');
+        });
       }
+
       if (answers.shape === "Triangle") {
-        let shapeTriangle = new Triangle(answers);
-        return shapeTriangle.render()
+        let shapeTriangle = new Triangle(answers.text, answers.textColor, answers.backgroundColor);
+        let logoSvg = shapeTriangle.generateSVG(shapeTriangle.render())
+
+
+        fs.writeFile('logo.svg', logoSvg, (err) => {
+          if (err) throw err;
+
+          console.log('Generated logo.svg');
+        });
       }
     })
 }
 
+
 init();
+
+// fs.writeFile('testSVG.svg', svg, (err) => {
+//   if (err) throw err;
+
+//   console.log('Generated logo.svg');
+// });
